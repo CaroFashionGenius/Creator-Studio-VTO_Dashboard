@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Genius — P1 Stundenformular (Amir Review)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f7f5;
+    --bg3: #f0efe9;
+    --text: #1a1a1a;
+    --text2: #666;
+    --text3: #999;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --green-bg: #EAF3DE; --green-text: #3B6D11;
+    --amber-bg: #FAEEDA; --amber-text: #854F0B;
+    --red-bg:   #FCEBEB; --red-text:   #A32D2D;
+    --blue-bg:  #E6F1FB; --blue-text:  #185FA5;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --mono: 'Courier New', Courier, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a; --bg2: #242424; --bg3: #2e2e2e;
+      --text: #f0f0f0; --text2: #aaa; --text3: #666;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --green-bg: #1a2e0d; --green-text: #7ec44a;
+      --amber-bg: #2e1f08; --amber-text: #f5a623;
+      --red-bg:   #2e0d0d; --red-text:   #f08080;
+      --blue-bg:  #0d1e2e; --blue-text:  #6ab0f5;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 24px 16px 48px;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .logo { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
+  .page-title { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .page-meta { font-size: 11px; color: var(--text3); text-align: right; line-height: 1.8; }
+
+  /* Summary cards */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .sum-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .sum-n { font-size: 22px; font-weight: 600; font-family: var(--mono); line-height: 1.2; }
+  .sum-l { font-size: 10px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Section header */
+  .sec-hdr {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 10px 0 8px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-hdr::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
+
+  /* Table */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 20px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  thead th {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 8px 12px;
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  thead th.c { text-align: center; }
+  td {
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg2); }
+
+  .task-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .task-sub  { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .h-fg {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text);
+  }
+  .h-diff {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-align: center;
+    color: var(--text3);
+  }
+  .diff-plus  { color: var(--red-text); font-weight: 600; }
+  .diff-minus { color: var(--green-text); font-weight: 600; }
+  .diff-same  { color: var(--text3); }
+
+  /* Inputs */
+  input[type=number] {
+    width: 60px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: center;
+    padding: 5px 6px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    display: block;
+    margin: 0 auto;
+  }
+  input[type=number]:focus { outline: none; border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
+
+  input[type=text] {
+    width: 100%;
+    font-size: 12px;
+    padding: 5px 8px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+  input[type=text]:focus { outline: none; border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
+  input[type=text]::placeholder { color: var(--text3); }
+  input[type=number]::placeholder { color: var(--text3); }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .ok     { background: var(--green-bg); color: var(--green-text); }
+  .tight  { background: var(--amber-bg); color: var(--amber-text); }
+  .low    { background: var(--red-bg);   color: var(--red-text); }
+  .miss   { background: var(--blue-bg);  color: var(--blue-text); }
+
+  /* Footer bar */
+  .footer-bar {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .footer-nums { display: flex; gap: 32px; flex-wrap: wrap; }
+  .fn { text-align: center; }
+  .fn-n { font-size: 18px; font-weight: 600; font-family: var(--mono); }
+  .fn-l { font-size: 10px; color: var(--text3); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Buttons */
+  .btn {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: 0.5px solid var(--border2);
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--bg2); }
+  .btn-primary {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+  }
+  .btn-primary:hover { background: #333; }
+  @media (prefers-color-scheme: dark) {
+    .btn-primary { background: #f0f0f0; color: #1a1a1a; border-color: #f0f0f0; }
+    .btn-primary:hover { background: #d0d0d0; }
+  }
+
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Export output */
+  #export-out {
+    display: none;
+    margin-top: 16px;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    white-space: pre-wrap;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* Notice */
+  .notice {
+    background: var(--amber-bg);
+    border-left: 3px solid var(--amber-text);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--amber-text);
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .summary-bar { grid-template-columns: repeat(2, 1fr); }
+    .page-header { flex-direction: column; }
+    .page-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <div class="logo">Fashion Genius Technology Lab AG · CHE-170.3.051.073-4</div>
+      <div class="page-title">P1 Stundenformular — Amir Review</div>
+    </div>
+    <div class="page-meta">
+      Version 1.0 · April 2026<br>
+      Creator Studio Beta (B2C) · Vertraulich
+    </div>
+  </div>
+
+  <div class="notice">
+    Bitte alle Felder in der Spalte "Amir (h)" ausfüllen. Differenzen werden automatisch berechnet. Kommentarfelder für offene Fragen oder Gegenpositionen nutzen.
+  </div>
+
+  <div class="summary-bar">
+    <div class="sum-card">
+      <div class="sum-n" id="tot-fg">119h</div>
+      <div class="sum-l">FG Schätzung Total</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-n" id="tot-amir" style="color: var(--blue-text)">—</div>
+      <div class="sum-l">Amirs Schätzung Total</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-n" id="tot-diff" style="color: var(--amber-text)">—</div>
+      <div class="sum-l">Differenz</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-n" id="tot-chf" style="color: var(--green-text)">—</div>
+      <div class="sum-l">Cash 50% (CHF 100/h)</div>
+    </div>
+  </div>
+
+  <!-- INFRA -->
+  <div class="sec-hdr">Infra</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th style="width:28%">Task</th>
+      <th class="c" style="width:8%">FG (h)</th>
+      <th class="c" style="width:9%">Amir (h)</th>
+      <th class="c" style="width:8%">Diff</th>
+      <th style="width:13%">Bewertung FG</th>
+      <th>Kommentar / Offene Punkte</th>
+    </tr></thead>
+    <tbody>
+      <tr data-fg="4">
+        <td><div class="task-name">Server Setup</div><div class="task-sub">Docker · Nginx · Certbot · UFW · Infomaniak VPS</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="1">
+        <td><div class="task-name">Domain Setup</div><div class="task-sub">Cloudflare DNS + SSL Konfiguration</div></td>
+        <td class="h-fg">1</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="3">
+        <td><div class="task-name">DB + Redis Setup</div><div class="task-sub">PostgreSQL 18 + Redis auf eigenem Server</div></td>
+        <td class="h-fg">3</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="3">
+        <td><div class="task-name">Cloudflare Panel Config</div><div class="task-sub">Security Rules · Cache · Rate Limiting</div></td>
+        <td class="h-fg">3</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- BACKEND -->
+  <div class="sec-hdr">Backend</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th style="width:28%">Task</th>
+      <th class="c" style="width:8%">FG (h)</th>
+      <th class="c" style="width:9%">Amir (h)</th>
+      <th class="c" style="width:8%">Diff</th>
+      <th style="width:13%">Bewertung FG</th>
+      <th>Kommentar / Offene Punkte</th>
+    </tr></thead>
+    <tbody>
+      <tr data-fg="8">
+        <td><div class="task-name">Backend + DB Hauptstruktur</div><div class="task-sub">TypeScript · Express/Bun · Prisma Schema + Migrations</div></td>
+        <td class="h-fg">8</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge tight">Zu knapp</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="4">
+        <td><div class="task-name">User Management</div><div class="task-sub">Login · Signup · JWT Token · Forgot Password Flow</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge tight">Zu knapp</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="5">
+        <td><div class="task-name">File Upload Flow</div><div class="task-sub">Cloudflare R2 · Validierung · GDPR 24h Auto-Delete</div></td>
+        <td class="h-fg">5</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="8">
+        <td><div class="task-name">VTO API Integration</div><div class="task-sub">Google Vertex AI virtual-try-on-001 · FASHN.ai Fallback</div></td>
+        <td class="h-fg">8</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge tight">Zu knapp (Scope)</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="8">
+        <td><div class="task-name">Web App API Integration</div><div class="task-sub">Alle Endpoints FE ↔ BE · Error States</div></td>
+        <td class="h-fg">8</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge tight">Zu knapp</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="sec-hdr">Frontend</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th style="width:28%">Task</th>
+      <th class="c" style="width:8%">FG (h)</th>
+      <th class="c" style="width:9%">Amir (h)</th>
+      <th class="c" style="width:8%">Diff</th>
+      <th style="width:13%">Bewertung FG</th>
+      <th>Kommentar / Offene Punkte</th>
+    </tr></thead>
+    <tbody>
+      <tr data-fg="4">
+        <td><div class="task-name">Web App Struktur</div><div class="task-sub">Svelte 5 (statt Next.js 14) · Routing · Layout-Komponenten</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="2">
+        <td><div class="task-name">Login Page + Token Handling</div><div class="task-sub">Login · Register · Forgot PW · Token Refresh</div></td>
+        <td class="h-fg">2</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge tight">Zu knapp</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="4">
+        <td><div class="task-name">Upload UI + Interfaces</div><div class="task-sub">Foto-Preview · Validierungsfeedback · Fehlermeldungen</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="4">
+        <td><div class="task-name">Loading / Lazy Load</div><div class="task-sub">Skeleton Screens · Async Loading States</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge ok">Realistisch</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- QA -->
+  <div class="sec-hdr">QA</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th style="width:28%">Task</th>
+      <th class="c" style="width:8%">FG (h)</th>
+      <th class="c" style="width:9%">Amir (h)</th>
+      <th class="c" style="width:8%">Diff</th>
+      <th style="width:13%">Bewertung FG</th>
+      <th>Kommentar / Offene Punkte</th>
+    </tr></thead>
+    <tbody>
+      <tr data-fg="1">
+        <td><div class="task-name">End-to-End Test</div><div class="task-sub">Vollständiger System-Test · Minimum 5–8h realistisch</div></td>
+        <td class="h-fg">1</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge low">Viel zu wenig</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- FEHLENDE FEATURES -->
+  <div class="sec-hdr">Fehlen im Timesheet — P1 Spec (Engineering Briefing)</div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th style="width:28%">Feature</th>
+      <th class="c" style="width:8%">FG (h)</th>
+      <th class="c" style="width:9%">Amir (h)</th>
+      <th class="c" style="width:8%">Diff</th>
+      <th style="width:13%">Status</th>
+      <th>Kommentar / Offene Punkte</th>
+    </tr></thead>
+    <tbody>
+      <tr data-fg="6">
+        <td><div class="task-name">Creator Profil + Plan-Zuweisung</div><div class="task-sub">AUTH-03/04 · Name · Handle · FREE auto-assign bei Signup</div></td>
+        <td class="h-fg">6</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="8">
+        <td><div class="task-name">Onboarding Wizard (3-Step)</div><div class="task-sub">AUTH-05 · Profil → Upload → First Try-On</div></td>
+        <td class="h-fg">8</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="8">
+        <td><div class="task-name">Garment Library + Kategorien</div><div class="task-sub">GARM-02/03 · FREE: 5 Garments / CREATOR: 20</div></td>
+        <td class="h-fg">8</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="5">
+        <td><div class="task-name">Watermark Logik</div><div class="task-sub">VTO-04 · FREE: Watermark on / CREATOR: Watermark off</div></td>
+        <td class="h-fg">5</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="6">
+        <td><div class="task-name">VTO Counter + monatl. Limits</div><div class="task-sub">VTO-05 / USAGE-01 · FREE: 20/mo · CREATOR: 150/mo · Reset</div></td>
+        <td class="h-fg">6</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="4">
+        <td><div class="task-name">Upsell Banner + Hard Block</div><div class="task-sub">USAGE-02/03 · 80% Trigger (Banner) + 100% Block + Upgrade CTA</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="4">
+        <td><div class="task-name">Output Qualitäts-Tiers</div><div class="task-sub">VTO-03 · Standard 1080px (FREE) vs. HD (CREATOR)</div></td>
+        <td class="h-fg">4</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="6">
+        <td><div class="task-name">Aspect Ratio Export</div><div class="task-sub">EXP-02 · 1:1 (Instagram) / 9:16 (TikTok/Stories) Auto-Crop</div></td>
+        <td class="h-fg">6</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="5">
+        <td><div class="task-name">Body Detection Validierung</div><div class="task-sub">PHOTO-02 · Reject wenn kein Full Body erkannt</div></td>
+        <td class="h-fg">5</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="3">
+        <td><div class="task-name">Produkt-URL Feld pro Garment</div><div class="task-sub">GARM-04 · Vorbereitung Affiliate-Tracking (P2)</div></td>
+        <td class="h-fg">3</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+      <tr data-fg="5">
+        <td><div class="task-name">QA Differenz</div><div class="task-sub">Realistisches Testing: 1h → 6h Minimum (+5h)</div></td>
+        <td class="h-fg">5</td>
+        <td><input type="number" min="0" max="99" placeholder="—" oninput="recalc()"></td>
+        <td class="h-diff diff-same">—</td>
+        <td><span class="badge miss">Fehlt</span></td>
+        <td><input type="text" placeholder="Kommentar..."></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="footer-nums">
+      <div class="fn">
+        <div class="fn-n" id="sum-fg">119h</div>
+        <div class="fn-l">FG Total P1</div>
+      </div>
+      <div class="fn">
+        <div class="fn-n" id="sum-amir" style="color: var(--blue-text)">—</div>
+        <div class="fn-l">Amir Total P1</div>
+      </div>
+      <div class="fn">
+        <div class="fn-n" id="sum-diff" style="color: var(--amber-text)">—</div>
+        <div class="fn-l">Differenz</div>
+      </div>
+      <div class="fn">
+        <div class="fn-n" id="sum-cash" style="color: var(--green-text)">—</div>
+        <div class="fn-l">Cash 50% (CHF)</div>
+      </div>
+      <div class="fn">
+        <div class="fn-n" id="sum-equity" style="color: var(--amber-text)">—</div>
+        <div class="fn-l">Equity 50% (CHF)</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn" onclick="exportSummary()">Zusammenfassung exportieren</button>
+      <button class="btn" onclick="window.print()">Drucken / PDF</button>
+    </div>
+  </div>
+
+  <pre id="export-out"></pre>
+
+</div>
+
+<script>
+  function recalc() {
+    var rows = document.querySelectorAll('tr[data-fg]');
+    var totFg = 0, totAmir = 0, filled = 0;
+
+    rows.forEach(function(r) {
+      var fg = parseInt(r.getAttribute('data-fg')) || 0;
+      totFg += fg;
+      var inp = r.querySelector('input[type=number]');
+      var diff = r.querySelector('.h-diff');
+      if (inp && inp.value !== '') {
+        var a = parseInt(inp.value) || 0;
+        totAmir += a;
+        filled++;
+        var d = a - fg;
+        diff.textContent = (d > 0 ? '+' : '') + d + 'h';
+        diff.className = 'h-diff ' + (d > 2 ? 'diff-plus' : d < -2 ? 'diff-minus' : 'diff-same');
+      } else {
+        diff.textContent = '—';
+        diff.className = 'h-diff diff-same';
+      }
+    });
+
+    document.getElementById('tot-fg').textContent = totFg + 'h';
+    document.getElementById('sum-fg').textContent = totFg + 'h';
+
+    if (filled > 0) {
+      var total = totAmir * 100;
+      var cash = Math.round(total * 0.5);
+      var equity = Math.round(total * 0.5);
+      var diff = totAmir - totFg;
+
+      document.getElementById('tot-amir').textContent = totAmir + 'h';
+      document.getElementById('sum-amir').textContent = totAmir + 'h';
+      document.getElementById('tot-diff').textContent = (diff > 0 ? '+' : '') + diff + 'h';
+      document.getElementById('sum-diff').textContent = (diff > 0 ? '+' : '') + diff + 'h';
+      document.getElementById('tot-chf').textContent = 'CHF ' + cash.toLocaleString('de-CH');
+      document.getElementById('sum-cash').textContent = 'CHF ' + cash.toLocaleString('de-CH');
+      document.getElementById('sum-equity').textContent = 'CHF ' + equity.toLocaleString('de-CH');
+    } else {
+      ['tot-amir','sum-amir','tot-diff','sum-diff','tot-chf','sum-cash','sum-equity'].forEach(function(id) {
+        document.getElementById(id).textContent = '—';
+      });
+    }
+  }
+
+  function exportSummary() {
+    var rows = document.querySelectorAll('tr[data-fg]');
+    var lines = [];
+    lines.push('FASHION GENIUS — P1 STUNDENFORMULAR · AMIR REVIEW');
+    lines.push('Datum: ' + new Date().toLocaleDateString('de-CH'));
+    lines.push('');
+    lines.push(pad('Task', 45) + pad('FG', 6) + pad('Amir', 7) + pad('Diff', 7) + 'Kommentar');
+    lines.push('-'.repeat(100));
+
+    rows.forEach(function(r) {
+      var name = (r.querySelector('.task-name') || {}).textContent || '';
+      var sub  = (r.querySelector('.task-sub')  || {}).textContent || '';
+      var fg   = r.getAttribute('data-fg') || '';
+      var inp  = r.querySelector('input[type=number]');
+      var com  = r.querySelector('input[type=text]');
+      var amir = (inp && inp.value) ? inp.value : '—';
+      var diff = '—';
+      if (inp && inp.value) {
+        var d = parseInt(inp.value) - parseInt(fg);
+        diff = (d > 0 ? '+' : '') + d + 'h';
+      }
+      var comment = (com && com.value) ? com.value : '';
+      lines.push(pad(name.trim(), 45) + pad(fg+'h', 6) + pad(amir+'h', 7) + pad(diff, 7) + comment);
+      if (sub.trim()) lines.push(pad('  ' + sub.trim(), 45));
+    });
+
+    lines.push('-'.repeat(100));
+    lines.push(pad('TOTAL FG:', 45) + document.getElementById('sum-fg').textContent);
+    lines.push(pad('TOTAL AMIR:', 45) + document.getElementById('sum-amir').textContent);
+    lines.push(pad('DIFFERENZ:', 45) + document.getElementById('sum-diff').textContent);
+    lines.push(pad('CASH 50%:', 45) + document.getElementById('sum-cash').textContent);
+    lines.push(pad('EQUITY 50%:', 45) + document.getElementById('sum-equity').textContent);
+
+    var out = document.getElementById('export-out');
+    out.style.display = 'block';
+    out.textContent = lines.join('\n');
+  }
+
+  function pad(str, len) {
+    str = (str || '').toString();
+    return str.length >= len ? str.substring(0, len - 1) + ' ' : str + ' '.repeat(len - str.length);
+  }
+</script>
+</body>
+</html>
